@@ -1,17 +1,7 @@
 <?php
-/*
 
-Only the admin user is allowed to access this page.
+// Hardened for the CTF: every security level now runs the secure (impossible) implementation.
+require __DIR__ . '/impossible.php';
+return;
 
-Have a look at this file for possible vulnerabilities: 
-
-* vulnerabilities/authbypass/change_user_details.php
-
-*/
-
-if (dvwaCurrentUser() != "admin") {
-	print "Unauthorised";
-	http_response_code(403);
-	exit;
-}
 ?>

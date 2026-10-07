@@ -29,9 +29,12 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
+// Hardened for the CTF: every level runs the secure implementation
+$vulnerabilityFile = 'impossible.php';
+
 $message = "";
 // Check what was sent in to see if it was what was expected
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($vulnerabilityFile != "impossible.php" && $_SERVER["REQUEST_METHOD"] == "POST") {
 	if (array_key_exists ("phrase", $_POST) && array_key_exists ("token", $_POST)) {
 
 		$phrase = $_POST['phrase'];
@@ -72,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	}
 }
 
-if ( dvwaSecurityLevelGet() == "impossible" ) {
+if ( $vulnerabilityFile == "impossible.php" ) {
 $page[ 'body' ] = <<<EOF
 <div class="body_padded">
 	<h1>Vulnerability: JavaScript Attacks</h1>

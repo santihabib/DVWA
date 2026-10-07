@@ -30,6 +30,9 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
+// Hardened for the CTF: every level runs the secure implementation
+$vulnerabilityFile = 'impossible.php';
+
 $hide_form = false;
 require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/captcha/source/{$vulnerabilityFile}";
 

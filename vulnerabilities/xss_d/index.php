@@ -29,13 +29,10 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
-require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/xss_d/source/{$vulnerabilityFile}";
+// Hardened for the CTF: every level runs the secure implementation
+$vulnerabilityFile = 'impossible.php';
 
-# For the impossible level, don't decode the querystring
-$decodeURI = "decodeURI";
-if ($vulnerabilityFile == 'impossible.php') {
-	$decodeURI = "";
-}
+require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/xss_d/source/{$vulnerabilityFile}";
 
 $page[ 'body' ] = <<<EOF
 <div class="body_padded">
@@ -47,21 +44,23 @@ $page[ 'body' ] = <<<EOF
 
 		<form name="XSS" method="GET">
 			<select name="default">
-				<script>
-					if (document.location.href.indexOf("default=") >= 0) {
-						var lang = document.location.href.substring(document.location.href.indexOf("default=")+8);
-						document.write("<option value='" + lang + "'>" + $decodeURI(lang) + "</option>");
-						document.write("<option value='' disabled='disabled'>----</option>");
-					}
-					    
-					document.write("<option value='English'>English</option>");
-					document.write("<option value='French'>French</option>");
-					document.write("<option value='Spanish'>Spanish</option>");
-					document.write("<option value='German'>German</option>");
-				</script>
+				<option value="English">English</option>
+				<option value="French">French</option>
+				<option value="Spanish">Spanish</option>
+				<option value="German">German</option>
 			</select>
 			<input type="submit" value="Select" />
 		</form>
+		<script>
+			// Hardened: the URL value is only used to pick an allow-listed option, never written into the DOM
+			(function () {
+				var lang = new URLSearchParams(window.location.search).get("default");
+				var allowed = ["English", "French", "Spanish", "German"];
+				if (allowed.indexOf(lang) >= 0) {
+					document.querySelector('select[name="default"]').value = lang;
+				}
+			})();
+		</script>
 	</div>
 EOF;
 

@@ -1,11 +1,7 @@
 <?php
-/*
 
-Nothing to see here for this vulnerability, have a look
-instead at the dvwaHtmlEcho function in:
-
-* dvwa/includes/dvwaPage.inc.php
-
-*/
+// Hardened for the CTF: every security level now runs the secure (impossible) implementation.
+require __DIR__ . '/impossible.php';
+return;
 
 ?>

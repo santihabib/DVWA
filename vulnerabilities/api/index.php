@@ -29,6 +29,9 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
+// Hardened for the CTF: every level runs the secure implementation
+$vulnerabilityFile = 'impossible.php';
+
 if (PHP_OS == "Linux") {
 	$out = shell_exec ("apachectl -M | grep rewrite_module");
 	if ($out == "") {

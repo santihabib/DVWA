@@ -31,6 +31,10 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
+// Hardened for the CTF: every level uses the allow-listed redirect
+$link1 = "source/impossible.php?redirect=1";
+$link2 = "source/impossible.php?redirect=2";
+
 $page[ 'body' ] .= "
 <div class=\"body_padded\">
 	<h1>Vulnerability: Open HTTP Redirect</h1>

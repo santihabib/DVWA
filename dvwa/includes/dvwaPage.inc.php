@@ -614,14 +614,9 @@ function dvwaGuestbook() {
 	$guestbook = '';
 
 	while( $row = mysqli_fetch_row( $result ) ) {
-		if( dvwaSecurityLevelGet() == 'impossible' ) {
-			$name    = htmlspecialchars( $row[0] );
-			$comment = htmlspecialchars( $row[1] );
-		}
-		else {
-			$name    = $row[0];
-			$comment = $row[1];
-		}
+		// Hardened: always HTML-encode stored user content
+		$name    = htmlspecialchars( $row[0], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' );
+		$comment = htmlspecialchars( $row[1], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' );
 
 		$guestbook .= "<div id=\"guestbook_comments\">Name: {$name}<br />" . "Message: {$comment}<br /></div>\n";
 	}
