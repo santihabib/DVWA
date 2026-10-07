@@ -31,9 +31,6 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
-// Hardened for the CTF: every level runs the secure implementation
-$vulnerabilityFile = 'impossible.php';
-
 require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/sqli/source/{$vulnerabilityFile}";
 
 $page[ 'body' ] .= "

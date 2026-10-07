@@ -29,9 +29,6 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
-// Hardened for the CTF: every level runs the secure implementation
-$vulnerabilityFile = 'impossible.php';
-
 require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/csrf/source/{$vulnerabilityFile}";
 
 $testCredentials = "
@@ -56,7 +53,7 @@ $page[ 'body' ] .= "
 		</div><br />
 		<form action=\"#\" method=\"GET\">";
 
-if( $vulnerabilityFile == 'impossible.php' ) {
+if( $vulnerabilityFile == 'high.php' || $vulnerabilityFile == 'impossible.php' ) {
 	$page[ 'body' ] .= "
 			Current password:<br />
 			<input type=\"password\" AUTOCOMPLETE=\"off\" name=\"password_current\"><br />";

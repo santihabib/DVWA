@@ -1,7 +1,34 @@
 <?php
 
-// Hardened for the CTF: every security level now runs the secure (impossible) implementation.
-require __DIR__ . '/impossible.php';
-return;
+if( isset( $_GET[ 'Change' ] ) ) {
+	// Hardened: check the anti-CSRF token; a forged cross-site request cannot know it
+	checkToken( isset( $_REQUEST[ 'user_token' ] ) ? $_REQUEST[ 'user_token' ] : null, isset( $_SESSION[ 'session_token' ] ) ? $_SESSION[ 'session_token' ] : null, 'index.php' );
+
+	// Get input
+	$pass_new  = isset( $_GET[ 'password_new' ] ) && is_string( $_GET[ 'password_new' ] ) ? $_GET[ 'password_new' ] : '';
+	$pass_conf = isset( $_GET[ 'password_conf' ] ) && is_string( $_GET[ 'password_conf' ] ) ? $_GET[ 'password_conf' ] : '';
+
+	// Do the passwords match?
+	if( $pass_new !== '' && $pass_new === $pass_conf ) {
+		$pass_new = md5( $pass_new );
+
+		// Update the database (parameterised)
+		$current_user = dvwaCurrentUser();
+		$data = $db->prepare( 'UPDATE users SET password = (:password) WHERE user = (:user);' );
+		$data->bindParam( ':password', $pass_new, PDO::PARAM_STR );
+		$data->bindParam( ':user', $current_user, PDO::PARAM_STR );
+		$data->execute();
+
+		// Feedback for the user
+		$html .= "<pre>Password Changed.</pre>";
+	}
+	else {
+		// Issue with passwords matching
+		$html .= "<pre>Passwords did not match.</pre>";
+	}
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
 
 ?>

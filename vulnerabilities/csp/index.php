@@ -29,9 +29,6 @@ switch( dvwaSecurityLevelGet() ) {
 		break;
 }
 
-// Hardened for the CTF: every level runs the secure implementation
-$vulnerabilityFile = 'impossible.php';
-
 $page[ 'body' ] = <<<EOF
 <div class="body_padded">
 	<h1>Vulnerability: Content Security Policy (CSP) Bypass</h1>

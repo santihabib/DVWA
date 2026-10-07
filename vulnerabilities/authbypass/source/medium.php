@@ -1,7 +1,10 @@
 <?php
 
-// Hardened for the CTF: every security level now runs the secure (impossible) implementation.
-require __DIR__ . '/impossible.php';
-return;
+// Hardened: only the admin user is allowed to access this page, at every security level
+if( dvwaCurrentUser() !== 'admin' ) {
+	http_response_code( 403 );
+	print 'Unauthorised';
+	exit;
+}
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 // The page we wish to display
-$file = $_GET[ 'page' ];
+$file = isset( $_GET[ 'page' ] ) && is_string( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 'include.php';
 
 // Only allow include.php or file{1..3}.php
 $configFileNames = [
@@ -11,10 +11,10 @@ $configFileNames = [
     'file3.php',
 ];
 
-if( !in_array($file, $configFileNames) ) {
+if( !in_array( $file, $configFileNames, true ) ) {
     // This isn't the page we want!
-    echo "ERROR: File not found!";
-    exit;
+    $page[ 'body' ] .= "<p>ERROR: File not found!</p>";
+    $file = 'include.php';
 }
 
 ?>
