@@ -10,7 +10,6 @@ dvwaDatabaseConnect();
 header( 'Content-Type: application/json' );
 // Hardened: only the admin may retrieve user data, at every level
 if (dvwaCurrentUser() != "admin") {
-	http_response_code(403);
 	print json_encode (array ("result" => "fail", "error" => "Access denied"));
 	exit;
 }
