@@ -5,6 +5,12 @@ require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/dvwaPage.inc.php';
 
 dvwaPageStartup( array( 'authenticated' ) );
 
+// Hardened: this page is for the admin user only, at every security level
+if( dvwaCurrentUser() !== 'admin' ) {
+	http_response_code( 403 );
+	exit( 'Unauthorised' );
+}
+
 $page = dvwaPageNewGrab();
 $page[ 'title' ]   = 'Vulnerability: Authorisation Bypass' . $page[ 'title_separator' ].$page[ 'title' ];
 $page[ 'page_id' ] = 'authbypass';
